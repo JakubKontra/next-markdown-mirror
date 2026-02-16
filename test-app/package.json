@@ -1,0 +1,19 @@
+{
+  "name": "test-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --port 3099",
+    "build": "next build"
+  },
+  "dependencies": {
+    "markdown-mirror": "file:..",
+    "next": "^16.1.6",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
+  },
+  "devDependencies": {
+    "@types/node": "25.2.3",
+    "@types/react": "19.2.14"
+  }
+}

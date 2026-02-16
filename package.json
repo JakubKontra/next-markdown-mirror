@@ -1,0 +1,96 @@
+{
+  "name": "markdown-mirror",
+  "version": "0.1.0",
+  "description": "Self-hosted Markdown for AI agents — serve Markdown instead of HTML when AI agents request it",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./nextjs": {
+      "import": {
+        "types": "./dist/nextjs.d.ts",
+        "default": "./dist/nextjs.js"
+      },
+      "require": {
+        "types": "./dist/nextjs.d.cts",
+        "default": "./dist/nextjs.cjs"
+      }
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "format:check": "prettier --check .",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "markdown",
+    "ai",
+    "llm",
+    "agents",
+    "nextjs",
+    "html-to-markdown",
+    "llms-txt"
+  ],
+  "author": "Jakub Kontra",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jakubkontra/markdown-mirror.git"
+  },
+  "homepage": "https://github.com/jakubkontra/markdown-mirror#readme",
+  "bugs": {
+    "url": "https://github.com/jakubkontra/markdown-mirror/issues"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "linkedom": "^0.18.9",
+    "turndown": "^7.2.0",
+    "turndown-plugin-gfm": "^1.0.2",
+    "yaml": "^2.7.0"
+  },
+  "peerDependencies": {
+    "next": ">=16.0.0"
+  },
+  "peerDependenciesMeta": {
+    "next": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/turndown": "^5.0.5",
+    "eslint": "^10.0.0",
+    "next": "^16.1.6",
+    "prettier": "^3.8.1",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "tsup": "^8.4.0",
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.55.0",
+    "vitest": "^3.0.5"
+  }
+}

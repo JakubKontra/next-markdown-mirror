@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Complex Page</title>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "name": "Complex Page",
+        "url": "https://example.com/complex"
+      },
+      {
+        "@type": "Organization",
+        "name": "Example Corp"
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <header>
+    <h1>Site Header</h1>
+  </header>
+  <nav aria-label="Main navigation">
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/about">About</a></li>
+    </ul>
+  </nav>
+  <main>
+    <article>
+      <h1>Complex Article</h1>
+      <p>First paragraph.</p>
+
+      <dl>
+        <dt>Term 1</dt>
+        <dd>Definition 1</dd>
+        <dt>Term 2</dt>
+        <dd>Definition 2</dd>
+      </dl>
+
+      <details>
+        <summary>Click to expand</summary>
+        <p>Hidden content here.</p>
+      </details>
+
+      <p>Some <mark>highlighted</mark> text.</p>
+
+      <p>The <abbr title="HyperText Markup Language">HTML</abbr> spec.</p>
+
+      <figure>
+        <img src="/images/chart.png" alt="Sales chart">
+        <figcaption>Figure 1: Sales over time</figcaption>
+      </figure>
+
+      <p>He said <q>hello world</q>.</p>
+
+      <p>H<sub>2</sub>O and E=mc<sup>2</sup></p>
+
+      <table>
+        <thead>
+          <tr><th>Name</th><th>Value</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Alpha</td><td>1</td></tr>
+          <tr><td>Beta</td><td>2</td></tr>
+        </tbody>
+      </table>
+
+      <div data-md-skip>
+        <p>This should be skipped.</p>
+      </div>
+
+      <div aria-hidden="true">
+        <p>Hidden from accessibility tree.</p>
+      </div>
+
+      <form>
+        <input type="text" placeholder="Search...">
+        <button>Submit</button>
+      </form>
+    </article>
+  </main>
+  <footer>
+    <p>Footer content</p>
+  </footer>
+</body>
+</html>
