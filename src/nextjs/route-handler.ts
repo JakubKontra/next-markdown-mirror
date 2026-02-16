@@ -7,7 +7,7 @@ import { buildMarkdownHeaders } from './headers.js';
  *
  * Usage:
  *   // app/md-mirror/[...path]/route.ts
- *   import { createMarkdownHandler } from 'markdown-mirror/nextjs';
+ *   import { createMarkdownHandler } from 'next-markdown-mirror/nextjs';
  *   export const GET = createMarkdownHandler({
  *     baseUrl: process.env.NEXT_PUBLIC_SITE_URL!,
  *   });

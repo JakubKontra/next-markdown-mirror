@@ -1,12 +1,12 @@
-# markdown-mirror
+# next-markdown-mirror
 
-[![npm version](https://img.shields.io/npm/v/markdown-mirror)](https://www.npmjs.com/package/markdown-mirror)
-[![CI](https://github.com/jakubkontra/markdown-mirror/actions/workflows/ci.yml/badge.svg)](https://github.com/jakubkontra/markdown-mirror/actions/workflows/ci.yml)
+[![npm version](https://img.shields.io/npm/v/next-markdown-mirror)](https://www.npmjs.com/package/next-markdown-mirror)
+[![CI](https://github.com/jakubkontra/next-markdown-mirror/actions/workflows/ci.yml/badge.svg)](https://github.com/jakubkontra/next-markdown-mirror/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 **Self-hosted Markdown for AI agents** — serve Markdown instead of HTML when AI agents request it.
 
-When an AI agent sends `Accept: text/markdown` or appends `?v=md`, markdown-mirror intercepts the request, converts your HTML page to clean Markdown (with JSON-LD frontmatter and token counts), and returns it. It also generates [`llms.txt`](https://llmstxt.org/) files for AI discovery.
+When an AI agent sends `Accept: text/markdown` or appends `?v=md`, next-markdown-mirror intercepts the request, converts your HTML page to clean Markdown (with JSON-LD frontmatter and token counts), and returns it. It also generates [`llms.txt`](https://llmstxt.org/) files for AI discovery.
 
 Similar to [Cloudflare's Markdown conversion](https://developers.cloudflare.com/workers-ai/features/markdown-conversion/), but self-hosted and framework-integrated — no third-party dependency, full control over your content.
 
@@ -40,7 +40,7 @@ Similar to [Cloudflare's Markdown conversion](https://developers.cloudflare.com/
 ## Quick Start
 
 ```bash
-npm install markdown-mirror
+npm install next-markdown-mirror
 ```
 
 ### Next.js 16 setup (3 files)
@@ -49,7 +49,7 @@ npm install markdown-mirror
 
 ```ts
 // proxy.ts
-import { withMarkdownMirror } from 'markdown-mirror/nextjs';
+import { withMarkdownMirror } from 'next-markdown-mirror/nextjs';
 export const proxy = withMarkdownMirror();
 ```
 
@@ -57,7 +57,7 @@ export const proxy = withMarkdownMirror();
 
 ```ts
 // app/md-mirror/[...path]/route.ts
-import { createMarkdownHandler } from 'markdown-mirror/nextjs';
+import { createMarkdownHandler } from 'next-markdown-mirror/nextjs';
 
 export const GET = createMarkdownHandler({
   baseUrl: process.env.NEXT_PUBLIC_SITE_URL!,
@@ -68,7 +68,7 @@ export const GET = createMarkdownHandler({
 
 ```ts
 // app/llms.txt/route.ts
-import { createLlmsTxtHandler } from 'markdown-mirror/nextjs';
+import { createLlmsTxtHandler } from 'next-markdown-mirror/nextjs';
 
 export const GET = createLlmsTxtHandler({
   siteName: 'My Site',
@@ -85,7 +85,7 @@ export const GET = createLlmsTxtHandler({
 The converter works standalone without Next.js:
 
 ```ts
-import { HtmlToMarkdown } from 'markdown-mirror';
+import { HtmlToMarkdown } from 'next-markdown-mirror';
 
 const converter = new HtmlToMarkdown({
   baseUrl: 'https://example.com',
@@ -103,7 +103,7 @@ const result = converter.convert(html);
 ### llms.txt generation
 
 ```ts
-import { generateLlmsTxt, parseSitemap } from 'markdown-mirror';
+import { generateLlmsTxt, parseSitemap } from 'next-markdown-mirror';
 
 // From a page list
 const txt = await generateLlmsTxt({
@@ -183,7 +183,7 @@ Use `data-md-skip` on any element to exclude it from Markdown output.
 
 ## Special Markdown conversions
 
-Beyond standard Markdown and GFM (tables, strikethrough, task lists), markdown-mirror converts:
+Beyond standard Markdown and GFM (tables, strikethrough, task lists), next-markdown-mirror converts:
 
 | HTML | Markdown output |
 |------|----------------|
@@ -198,8 +198,8 @@ Beyond standard Markdown and GFM (tables, strikethrough, task lists), markdown-m
 ## Contributing
 
 ```bash
-git clone https://github.com/jakubkontra/markdown-mirror.git
-cd markdown-mirror
+git clone https://github.com/jakubkontra/next-markdown-mirror.git
+cd next-markdown-mirror
 npm install
 npm test          # run tests
 npm run typecheck # type-check

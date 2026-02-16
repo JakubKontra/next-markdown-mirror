@@ -7,7 +7,7 @@
     "build": "next build"
   },
   "dependencies": {
-    "markdown-mirror": "file:..",
+    "next-markdown-mirror": "file:..",
     "next": "^16.1.6",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"

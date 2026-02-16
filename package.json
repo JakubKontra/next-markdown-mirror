@@ -1,5 +1,5 @@
 {
-  "name": "markdown-mirror",
+  "name": "next-markdown-mirror",
   "version": "0.1.0",
   "description": "Self-hosted Markdown for AI agents — serve Markdown instead of HTML when AI agents request it",
   "type": "module",
@@ -45,23 +45,28 @@
     "prepublishOnly": "npm run build"
   },
   "keywords": [
+    "nextjs",
+    "next",
     "markdown",
     "ai",
     "llm",
     "agents",
-    "nextjs",
     "html-to-markdown",
-    "llms-txt"
+    "llms-txt",
+    "content-negotiation",
+    "ai-agents",
+    "text-markdown",
+    "markdown-proxy"
   ],
   "author": "Jakub Kontra",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jakubkontra/markdown-mirror.git"
+    "url": "git+https://github.com/jakubkontra/next-markdown-mirror.git"
   },
-  "homepage": "https://github.com/jakubkontra/markdown-mirror#readme",
+  "homepage": "https://github.com/jakubkontra/next-markdown-mirror#readme",
   "bugs": {
-    "url": "https://github.com/jakubkontra/markdown-mirror/issues"
+    "url": "https://github.com/jakubkontra/next-markdown-mirror/issues"
   },
   "engines": {
     "node": ">=20"

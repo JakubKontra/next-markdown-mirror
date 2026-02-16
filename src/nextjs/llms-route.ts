@@ -6,7 +6,7 @@ import { generateLlmsTxt, generateLlmsFullTxt } from '../core/llms-txt-generator
  *
  * Usage:
  *   // app/llms.txt/route.ts
- *   import { createLlmsTxtHandler } from 'markdown-mirror/nextjs';
+ *   import { createLlmsTxtHandler } from 'next-markdown-mirror/nextjs';
  *   export const GET = createLlmsTxtHandler({
  *     siteName: 'My Site',
  *     baseUrl: 'https://example.com',
@@ -36,7 +36,7 @@ export function createLlmsTxtHandler(config: LlmsTxtConfig) {
  *
  * Usage:
  *   // app/llms-full.txt/route.ts
- *   import { createLlmsFullTxtHandler } from 'markdown-mirror/nextjs';
+ *   import { createLlmsFullTxtHandler } from 'next-markdown-mirror/nextjs';
  *   export const GET = createLlmsFullTxtHandler({
  *     siteName: 'My Site',
  *     baseUrl: 'https://example.com',

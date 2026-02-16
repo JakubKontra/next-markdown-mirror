@@ -1,3 +1,3 @@
-import { withMarkdownMirror } from 'markdown-mirror/nextjs';
+import { withMarkdownMirror } from 'next-markdown-mirror/nextjs';
 
 export const proxy = withMarkdownMirror();

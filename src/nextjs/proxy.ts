@@ -25,7 +25,7 @@ const STATIC_EXT =
  *
  * Usage:
  *   // proxy.ts
- *   import { withMarkdownMirror } from 'markdown-mirror/nextjs';
+ *   import { withMarkdownMirror } from 'next-markdown-mirror/nextjs';
  *   export const proxy = withMarkdownMirror();
  */
 export function withMarkdownMirror(config: ProxyConfig = {}) {

@@ -3,7 +3,7 @@ export default function Home() {
     <>
       <h1>Welcome to the Test Site</h1>
       <p>
-        This is the <strong>home page</strong> of our markdown-mirror test
+        This is the <strong>home page</strong> of our next-markdown-mirror test
         application. It demonstrates HTML to Markdown conversion.
       </p>
       <h2>Features</h2>

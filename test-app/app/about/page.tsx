@@ -9,7 +9,7 @@ export default function About() {
             '@type': 'Article',
             headline: 'About This Project',
             description:
-              'markdown-mirror is a self-hosted Markdown for AI agents',
+              'next-markdown-mirror is a self-hosted Markdown for AI agents',
             datePublished: '2025-01-15',
             author: { '@type': 'Person', name: 'Test Author' },
           }),
@@ -17,7 +17,7 @@ export default function About() {
       />
       <h1>About This Project</h1>
       <p>
-        <strong>markdown-mirror</strong> is a self-hosted alternative to{' '}
+        <strong>next-markdown-mirror</strong> is a self-hosted alternative to{' '}
         <a href="https://blog.cloudflare.com/markdown-for-agents/">
           Cloudflare Markdown for Agents
         </a>

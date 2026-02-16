@@ -1,6 +1,6 @@
 export const metadata = {
   title: 'Markdown Mirror Test App',
-  description: 'Testing markdown-mirror package',
+  description: 'Testing next-markdown-mirror package',
 };
 
 export default function RootLayout({

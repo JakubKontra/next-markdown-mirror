@@ -1,4 +1,4 @@
-import { createMarkdownHandler } from 'markdown-mirror/nextjs';
+import { createMarkdownHandler } from 'next-markdown-mirror/nextjs';
 
 export const GET = createMarkdownHandler({
   baseUrl: 'http://localhost:3099',
