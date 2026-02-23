@@ -5,7 +5,7 @@
 [![CI](https://github.com/jakubkontra/next-markdown-mirror/actions/workflows/ci.yml/badge.svg)](https://github.com/jakubkontra/next-markdown-mirror/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-[![NPM Downloads Chart](https://npm-stat.com/charts.svg?package=next-markdown-mirror&from=2026-02-01)](https://npm-stat.com/charts.html?package=next-markdown-mirror)
+[![NPM](https://nodei.co/npm/next-markdown-mirror.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/next-markdown-mirror)
 
 **Self-hosted Markdown for AI agents** — serve Markdown instead of HTML when AI agents request it.
 
