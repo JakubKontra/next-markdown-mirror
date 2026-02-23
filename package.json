@@ -1,6 +1,6 @@
 {
   "name": "next-markdown-mirror",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Self-hosted Markdown for AI agents — serve Markdown instead of HTML when AI agents request it",
   "type": "module",
   "exports": {
@@ -64,7 +64,7 @@
     "type": "git",
     "url": "git+https://github.com/jakubkontra/next-markdown-mirror.git"
   },
-  "homepage": "https://github.com/jakubkontra/next-markdown-mirror#readme",
+  "homepage": "https://jakubkontra.github.io/next-markdown-mirror/",
   "bugs": {
     "url": "https://github.com/jakubkontra/next-markdown-mirror/issues"
   },
