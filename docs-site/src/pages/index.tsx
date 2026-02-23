@@ -199,7 +199,7 @@ function CtaSection() {
 }
 
 export default function Home(): React.ReactElement {
-  const { siteConfig } = useDocusaurusContext();
+  const _context = useDocusaurusContext();
   return (
     <Layout
       title="Your website is invisible to AI"

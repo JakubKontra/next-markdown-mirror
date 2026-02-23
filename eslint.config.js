@@ -5,7 +5,7 @@ export default tseslint.config(
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
   {
-    ignores: ['dist/', 'test-app/', 'coverage/'],
+    ignores: ['dist/', 'test-app/', 'coverage/', 'docs-site/'],
   },
   {
     rules: {
