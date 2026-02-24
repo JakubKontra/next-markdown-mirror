@@ -19,10 +19,10 @@ Add AI-readable Markdown to your Next.js site in 3 minutes. When an AI agent req
 ## Install
 
 <Tabs>
-  <TabItem value="npm" label="npm" default>
+  <TabItem value="pnpm" label="pnpm" default>
 
 ```bash
-npm install next-markdown-mirror
+pnpm add next-markdown-mirror
 ```
 
   </TabItem>
@@ -33,10 +33,17 @@ yarn add next-markdown-mirror
 ```
 
   </TabItem>
-  <TabItem value="pnpm" label="pnpm">
+  <TabItem value="npm" label="npm">
 
 ```bash
-pnpm add next-markdown-mirror
+npm install next-markdown-mirror
+```
+
+  </TabItem>
+  <TabItem value="bun" label="bun">
+
+```bash
+bun add next-markdown-mirror
 ```
 
   </TabItem>
