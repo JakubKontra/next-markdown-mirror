@@ -22,6 +22,50 @@
   line-height: 1.6;
 }
 
+/* Install tabs */
+.installTabs {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: stretch;
+  margin-bottom: 1.5rem;
+}
+
+.tabBar {
+  display: flex;
+  gap: 0;
+  justify-content: center;
+}
+
+.tab {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-bottom: none;
+  padding: 0.4rem 1rem;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.tab:first-child {
+  border-radius: 8px 0 0 0;
+}
+
+.tab:last-child {
+  border-radius: 0 8px 0 0;
+}
+
+.tab:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.tabActive {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-weight: 600;
+}
+
 /* Install command */
 .installCommand {
   display: inline-flex;
@@ -29,14 +73,14 @@
   gap: 0.75rem;
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.25);
-  border-radius: 8px;
+  border-radius: 0 0 8px 8px;
   padding: 0.75rem 1.25rem;
   font-family: var(--ifm-font-family-monospace);
   font-size: 1rem;
   color: #fff;
   cursor: pointer;
   transition: background 0.2s;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0;
 }
 
 .installCommand:hover {

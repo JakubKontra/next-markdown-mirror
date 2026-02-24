@@ -97,20 +97,45 @@ more accessible to AI agents.
 Ensure every website can communicate
 with large language models.`;
 
+const commands = {
+  pnpm: 'pnpm add next-markdown-mirror',
+  yarn: 'yarn add next-markdown-mirror',
+  npm: 'npm install next-markdown-mirror',
+  bun: 'bun add next-markdown-mirror',
+} as const;
+
+type PkgManager = keyof typeof commands;
+
+const pkgManagers: PkgManager[] = ['pnpm', 'yarn', 'npm', 'bun'];
+
 function InstallCommand() {
   const [copied, setCopied] = useState(false);
+  const [active, setActive] = useState<PkgManager>('pnpm');
 
   const handleCopy = () => {
-    navigator.clipboard.writeText('npm install next-markdown-mirror');
+    navigator.clipboard.writeText(commands[active]);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
   return (
-    <button className={styles.installCommand} onClick={handleCopy}>
-      <span>npm install next-markdown-mirror</span>
-      <span className={styles.copyIcon}>{copied ? 'Copied!' : 'Copy'}</span>
-    </button>
+    <div className={styles.installTabs}>
+      <div className={styles.tabBar}>
+        {pkgManagers.map((pm) => (
+          <button
+            key={pm}
+            className={`${styles.tab} ${active === pm ? styles.tabActive : ''}`}
+            onClick={() => setActive(pm)}
+          >
+            {pm}
+          </button>
+        ))}
+      </div>
+      <button className={styles.installCommand} onClick={handleCopy}>
+        <span>{commands[active]}</span>
+        <span className={styles.copyIcon}>{copied ? 'Copied!' : 'Copy'}</span>
+      </button>
+    </div>
   );
 }
 
