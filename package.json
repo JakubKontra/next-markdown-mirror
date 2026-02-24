@@ -1,6 +1,6 @@
 {
   "name": "next-markdown-mirror",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Self-hosted Markdown for AI agents — serve Markdown instead of HTML when AI agents request it",
   "type": "module",
   "exports": {

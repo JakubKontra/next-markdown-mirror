@@ -7,43 +7,39 @@
 
 [![NPM](https://nodei.co/npm/next-markdown-mirror.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/next-markdown-mirror)
 
-**Self-hosted Markdown for AI agents** — serve Markdown instead of HTML when AI agents request it.
+**Self-hosted Markdown for AI agents** — serve clean Markdown instead of HTML when AI agents request your pages. [Full docs](https://jakubkontra.github.io/next-markdown-mirror/)
 
-When an AI agent sends `Accept: text/markdown` or appends `?v=md`, next-markdown-mirror intercepts the request, converts your HTML page to clean Markdown (with JSON-LD frontmatter and token counts), and returns it. It also generates [`llms.txt`](https://llmstxt.org/) files for AI discovery.
+## The Problem
 
-Similar to [Cloudflare's Markdown conversion](https://developers.cloudflare.com/workers-ai/features/markdown-conversion/), but self-hosted and framework-integrated — no third-party dependency, full control over your content.
+AI agents waste tokens parsing your nav bars, footers, cookie banners, and ad scripts as "content." HTML boilerplate can 2-5x the token count vs clean Markdown — and AI tools citing your site produce lower-quality responses because of the noise.
 
-## How it works
+## Before / After
 
-```
-                    ┌──────────────────────────────┐
-                    │        Your Next.js App       │
-                    │                               │
-  Accept: text/md   │  ┌─────────┐                  │
-  ─────────────────►│  │  proxy   │  rewrite         │
-        or ?v=md    │  │  .ts     │──────────┐       │
-                    │  └─────────┘           │       │
-                    │                        ▼       │
-                    │              ┌──────────────┐  │
-                    │              │ /md-mirror/  │  │
-                    │              │ [...path]    │  │  text/markdown
-                    │              │  route.ts    │──┼──────────────►
-                    │              └──────┬───────┘  │  + YAML frontmatter
-                    │                     │          │  + token count
-                    │           fetch     │          │
-                    │          (internal) │          │
-                    │                     ▼          │
-                    │              ┌──────────────┐  │
-                    │              │  Your HTML   │  │
-                    │              │    page      │  │
-                    │              └──────────────┘  │
-                    └──────────────────────────────┘
-```
+![demo](assets/demo.gif)
+
+## Why not Cloudflare?
+
+Cloudflare offers automatic Markdown conversion — but it requires their Pro plan at **$20/month per domain** ($240/year). For 5 domains, that's $1,200/year.
+
+next-markdown-mirror is **free and open source**:
+
+| | next-markdown-mirror | Cloudflare Pro |
+|-|---------------------|----------------|
+| 1 domain | **$0** | $240/year |
+| 5 domains | **$0** | $1,200/year |
+| 10 domains | **$0** | $2,400/year |
+
+Plus: self-hosted (deploy anywhere), full control over filtering and frontmatter, built-in JSON-LD extraction and llms.txt support.
 
 ## Quick Start
 
+Install:
+
 ```bash
-npm install next-markdown-mirror
+pnpm add next-markdown-mirror
+# or: yarn add next-markdown-mirror
+# or: npm install next-markdown-mirror
+# or: bun add next-markdown-mirror
 ```
 
 ### Next.js 16 setup (3 files)
@@ -83,6 +79,42 @@ export const GET = createLlmsTxtHandler({
 });
 ```
 
+## How it works
+
+```
+                    ┌──────────────────────────────┐
+                    │        Your Next.js App       │
+                    │                               │
+  Accept: text/md   │  ┌─────────┐                  │
+  ─────────────────►│  │  proxy   │  rewrite         │
+        or ?v=md    │  │  .ts     │──────────┐       │
+                    │  └─────────┘           │       │
+                    │                        ▼       │
+                    │              ┌──────────────┐  │
+                    │              │ /md-mirror/  │  │
+                    │              │ [...path]    │  │  text/markdown
+                    │              │  route.ts    │──┼──────────────►
+                    │              └──────┬───────┘  │  + YAML frontmatter
+                    │                     │          │  + token count
+                    │           fetch     │          │
+                    │          (internal) │          │
+                    │                     ▼          │
+                    │              ┌──────────────┐  │
+                    │              │  Your HTML   │  │
+                    │              │    page      │  │
+                    │              └──────────────┘  │
+                    └──────────────────────────────┘
+```
+
+## Features
+
+- **JSON-LD → YAML frontmatter** — structured data extracted and prepended automatically
+- **[llms.txt](https://llmstxt.org/) protocol** — built-in AI discovery file generation
+- **GFM + extended Markdown** — tables, task lists, definition lists, `<details>`, `<mark>`, and more
+- **Token counting** — `x-markdown-tokens` response header with custom counter support
+- **Intelligent content filtering** — strips nav, footer, scripts, ads, cookie banners, and icons
+- **Content-Signal header** — tell AI agents how they may use your content
+
 ## Core API
 
 The converter works standalone without Next.js:
@@ -103,100 +135,20 @@ const result = converter.convert(html);
 // result.title       — page title
 ```
 
-### llms.txt generation
-
-```ts
-import { generateLlmsTxt, parseSitemap } from 'next-markdown-mirror';
-
-// From a page list
-const txt = await generateLlmsTxt({
-  siteName: 'My Site',
-  baseUrl: 'https://example.com',
-  pages: [{ url: '/about', title: 'About' }],
-});
-
-// From a sitemap
-const pages = await parseSitemap('https://example.com/sitemap.xml', 'https://example.com');
-```
-
 ## Configuration
 
-### MarkdownMirrorConfig
+See the [full configuration reference](https://jakubkontra.github.io/next-markdown-mirror/docs/configuration) on the docs site.
+
+### Key options
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `contentSelectors` | `string[]` | `['main', 'article', '[role="main"]']` | Priority-ordered CSS selectors for main content |
+| `contentSelectors` | `string[]` | `['main', 'article', '[role="main"]']` | CSS selectors for main content |
 | `excludeSelectors` | `string[]` | `[]` | Additional CSS selectors to exclude |
-| `includeSelectors` | `string[]` | `[]` | CSS selectors to explicitly include (overrides excludes) |
 | `extractJsonLd` | `boolean` | `true` | Extract JSON-LD as YAML frontmatter |
-| `turndownRules` | `Record<string, Rule>` | — | Custom Turndown conversion rules |
-| `turndownOptions` | `TurndownService.Options` | — | Override Turndown options |
 | `baseUrl` | `string` | — | Base URL for resolving relative URLs |
-| `maxContentSize` | `number` | `1048576` (1MB) | Max HTML size before rejection |
 | `contentSignal` | `ContentSignal` | — | `Content-Signal` header value |
-| `tokenCounter` | `(text: string) => number` | heuristic | Custom token counter function |
-
-### ProxyConfig
-
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `excludePaths` | `string[]` | `[]` | Paths to exclude from rewriting (added to built-in excludes) |
-| `routePrefix` | `string` | `'/md-mirror'` | Internal route prefix for the handler |
-
-### RouteHandlerConfig
-
-Extends `MarkdownMirrorConfig` with:
-
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `baseUrl` | `string` | **required** | Base URL for internal fetch |
-| `additionalHeaders` | `Record<string, string>` | — | Extra headers for internal fetch |
-
-## Response headers
-
-| Header | Value | Description |
-|--------|-------|-------------|
-| `Content-Type` | `text/markdown; charset=utf-8` | Markdown MIME type |
-| `Vary` | `Accept` | Indicates content negotiation |
-| `x-markdown-tokens` | `number` | Estimated token count |
-| `Content-Signal` | `ai-train \| search \| ai-input` | Optional — how AI may use the content |
-
-## Testing with curl
-
-```bash
-# Via Accept header
-curl -H "Accept: text/markdown" https://your-site.com/about
-
-# Via query parameter
-curl "https://your-site.com/about?v=md"
-
-# Check token count
-curl -sI -H "Accept: text/markdown" https://your-site.com/ | grep x-markdown-tokens
-```
-
-## Built-in content filtering
-
-The converter automatically strips non-content elements:
-
-- **Tags:** `<nav>`, `<footer>`, `<header>`, `<form>`, `<script>`, `<style>`, `<noscript>`, `<iframe>`, `<svg>`, `<canvas>`, `<template>`
-- **Selectors:** `[data-md-skip]`, `[aria-hidden="true"]`, `.sr-only`, `.visually-hidden`, `button`, `input`, `select`, `textarea`
-- **Images:** Icons smaller than 50x50px (by `width`/`height` attributes)
-
-Use `data-md-skip` on any element to exclude it from Markdown output.
-
-## Special Markdown conversions
-
-Beyond standard Markdown and GFM (tables, strikethrough, task lists), next-markdown-mirror converts:
-
-| HTML | Markdown output |
-|------|----------------|
-| `<dl>`, `<dt>`, `<dd>` | `**Term**` / `: Definition` |
-| `<details>` / `<summary>` | Preserved as HTML (`<details>`, `<summary>`) |
-| `<mark>` | `==highlighted==` |
-| `<abbr title="...">` | `Text (expansion)` |
-| `<figure>` / `<figcaption>` | `![alt](src)` + `*caption*` |
-| `<q>` | `"quoted text"` |
-| `<sub>` / `<sup>` | `~subscript~` / `^superscript^` |
+| `routePrefix` | `string` | `'/md-mirror'` | Internal route prefix (proxy config) |
 
 ## Contributing
 
