@@ -23,6 +23,16 @@
         "types": "./dist/nextjs.d.cts",
         "default": "./dist/nextjs.cjs"
       }
+    },
+    "./pages": {
+      "import": {
+        "types": "./dist/pages.d.ts",
+        "default": "./dist/pages.js"
+      },
+      "require": {
+        "types": "./dist/pages.d.cts",
+        "default": "./dist/pages.cjs"
+      }
     }
   },
   "main": "./dist/index.cjs",
@@ -78,7 +88,7 @@
     "yaml": "^2.7.0"
   },
   "peerDependencies": {
-    "next": ">=16.0.0"
+    "next": ">=12.2.0"
   },
   "peerDependenciesMeta": {
     "next": {
