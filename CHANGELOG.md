@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.1.0] - 2026-03-04
+
+### Added
+
+- **Pages Router support** — new `next-markdown-mirror/pages` entry point with full support for Next.js Pages Router (`pages/` directory)
+  - `createMarkdownMiddleware()` — middleware that detects markdown requests and rewrites to `/api/md-mirror/...`
+  - `createPagesMarkdownHandler()` — API route handler for `pages/api/md-mirror/[...path].ts`
+  - `createPagesLlmsTxtHandler()` / `createPagesLlmsFullTxtHandler()` — API route handlers for llms.txt generation
+- Pages Router test coverage (22 tests across middleware, API route handler, and llms API route)
+
 ## [1.0.1] - 2026-02-24
 
 ### Added

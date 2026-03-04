@@ -42,7 +42,7 @@ pnpm add next-markdown-mirror
 # or: bun add next-markdown-mirror
 ```
 
-### Next.js 16 setup (3 files)
+### App Router setup (Next.js 16+, 3 files)
 
 **1. Proxy** — intercepts markdown requests and rewrites to the handler:
 
@@ -70,6 +70,44 @@ export const GET = createMarkdownHandler({
 import { createLlmsTxtHandler } from 'next-markdown-mirror/nextjs';
 
 export const GET = createLlmsTxtHandler({
+  siteName: 'My Site',
+  baseUrl: process.env.NEXT_PUBLIC_SITE_URL!,
+  pages: [
+    { url: '/', title: 'Home', description: 'Welcome page' },
+    { url: '/about', title: 'About' },
+  ],
+});
+```
+
+### Pages Router setup (3 files)
+
+**1. Middleware** — intercepts markdown requests and rewrites to the API route:
+
+```ts
+// middleware.ts
+import { createMarkdownMiddleware } from 'next-markdown-mirror/pages';
+export default createMarkdownMiddleware();
+export const config = { matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'] };
+```
+
+**2. API route handler** — fetches your HTML internally and converts to Markdown:
+
+```ts
+// pages/api/md-mirror/[...path].ts
+import { createPagesMarkdownHandler } from 'next-markdown-mirror/pages';
+
+export default createPagesMarkdownHandler({
+  baseUrl: process.env.NEXT_PUBLIC_SITE_URL!,
+});
+```
+
+**3. llms.txt** — AI discovery file:
+
+```ts
+// pages/api/llms.txt.ts
+import { createPagesLlmsTxtHandler } from 'next-markdown-mirror/pages';
+
+export default createPagesLlmsTxtHandler({
   siteName: 'My Site',
   baseUrl: process.env.NEXT_PUBLIC_SITE_URL!,
   pages: [
@@ -148,7 +186,7 @@ See the [full configuration reference](https://jakubkontra.github.io/next-markdo
 | `extractJsonLd` | `boolean` | `true` | Extract JSON-LD as YAML frontmatter |
 | `baseUrl` | `string` | — | Base URL for resolving relative URLs |
 | `contentSignal` | `ContentSignal` | — | `Content-Signal` header value |
-| `routePrefix` | `string` | `'/md-mirror'` | Internal route prefix (proxy config) |
+| `routePrefix` | `string` | `'/md-mirror'` (App Router) / `'/api/md-mirror'` (Pages Router) | Internal route prefix |
 
 ## Contributing
 
