@@ -150,6 +150,39 @@ describe('HtmlToMarkdown', () => {
     expect(result.tokenCount).toBeGreaterThanOrEqual(0);
   });
 
+  it('unwraps /_next/image URLs to original src', () => {
+    const html = readFixture('simple-page.html');
+    const converter = new HtmlToMarkdown({ baseUrl: 'https://example.com' });
+    const result = converter.convert(html);
+
+    // Should contain the original image URL, not the /_next/image wrapper
+    expect(result.markdown).toContain('https://cdn.example.com/photo.jpg');
+    expect(result.markdown).not.toContain('/_next/image');
+  });
+
+  it('keeps /_next/image URLs when unwrapNextImages is false', () => {
+    const html = readFixture('simple-page.html');
+    const converter = new HtmlToMarkdown({
+      baseUrl: 'https://example.com',
+      unwrapNextImages: false,
+    });
+    const result = converter.convert(html);
+
+    // Should keep the /_next/image URL (resolved to absolute)
+    expect(result.markdown).toContain('https://example.com/_next/image/');
+  });
+
+  it('unwraps /_next/image with relative inner URL and resolves with baseUrl', () => {
+    const html = `<html><body><main>
+      <img src="/_next/image/?url=%2Fuploads%2Fphoto.jpg&amp;w=1920&amp;q=75" alt="test">
+    </main></body></html>`;
+    const converter = new HtmlToMarkdown({ baseUrl: 'https://example.com' });
+    const result = converter.convert(html);
+
+    expect(result.markdown).toContain('https://example.com/uploads/photo.jpg');
+    expect(result.markdown).not.toContain('/_next/image');
+  });
+
   it('accepts custom token counter', () => {
     const html = readFixture('simple-page.html');
     const converter = new HtmlToMarkdown({

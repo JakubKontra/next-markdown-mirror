@@ -69,6 +69,16 @@ export class HtmlToMarkdown {
       includeSelectors: this.config.includeSelectors,
     });
 
+    // Unwrap /_next/image URLs to original src
+    if (this.config.unwrapNextImages !== false) {
+      this.unwrapNextImageUrls(
+        clone as unknown as {
+          querySelectorAll(s: string): ArrayLike<Element>;
+        },
+        this.config.baseUrl,
+      );
+    }
+
     // Resolve relative URLs
     if (this.config.baseUrl) {
       this.resolveUrls(
@@ -126,6 +136,22 @@ export class HtmlToMarkdown {
     };
   }
 
+  private unwrapNextImageUrls(
+    root: { querySelectorAll(s: string): ArrayLike<Element> },
+    baseUrl?: string,
+  ): void {
+    const imgs = root.querySelectorAll('img[src]');
+    for (let i = 0; i < imgs.length; i++) {
+      const src = imgs[i].getAttribute('src');
+      if (!src) continue;
+
+      const originalUrl = extractNextImageUrl(src, baseUrl);
+      if (originalUrl) {
+        imgs[i].setAttribute('src', originalUrl);
+      }
+    }
+  }
+
   private resolveUrls(
     root: { querySelectorAll(s: string): ArrayLike<Element> },
     baseUrl: string,
@@ -155,6 +181,30 @@ export class HtmlToMarkdown {
         }
       }
     }
+  }
+}
+
+/**
+ * Extract the original image URL from a /_next/image wrapper URL.
+ * Returns the unwrapped URL, or undefined if not a Next.js image URL.
+ */
+function extractNextImageUrl(src: string, baseUrl?: string): string | undefined {
+  // Match both relative (/_next/image/...) and absolute (https://site.com/_next/image/...)
+  if (!src.includes('/_next/image')) return undefined;
+
+  try {
+    // Parse using a dummy base if the src is relative
+    const parsed = new URL(src, baseUrl ?? 'http://localhost');
+    const originalUrl = parsed.searchParams.get('url');
+    if (!originalUrl) return undefined;
+
+    // If the extracted URL is relative, resolve it with baseUrl if available
+    if (!isAbsoluteUrl(originalUrl) && baseUrl) {
+      return new URL(originalUrl, baseUrl).href;
+    }
+    return originalUrl;
+  } catch {
+    return undefined;
   }
 }
 
