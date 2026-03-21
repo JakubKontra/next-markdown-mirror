@@ -31,6 +31,9 @@ export interface MarkdownMirrorConfig {
   /** Base URL for resolving relative URLs in the HTML. */
   baseUrl?: string;
 
+  /** Whether to unwrap /_next/image URLs to their original src. Default: true */
+  unwrapNextImages?: boolean;
+
   /** Maximum content size in bytes before rejecting. Default: 1MB */
   maxContentSize?: number;
 
