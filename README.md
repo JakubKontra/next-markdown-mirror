@@ -13,10 +13,6 @@
 
 AI agents waste tokens parsing your nav bars, footers, cookie banners, and ad scripts as "content." HTML boilerplate can 2-5x the token count vs clean Markdown — and AI tools citing your site produce lower-quality responses because of the noise.
 
-## Before / After
-
-![demo](assets/demo.gif)
-
 ## Why not Cloudflare?
 
 Cloudflare offers automatic Markdown conversion — but it requires their Pro plan at **$20/month per domain** ($240/year). For 5 domains, that's $1,200/year.
