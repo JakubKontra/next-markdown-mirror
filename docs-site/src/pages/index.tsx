@@ -207,6 +207,36 @@ function BeforeAfterSection() {
   );
 }
 
+const usedBySites = [
+  { name: '108 Real Estate', url: 'https://www.108realestate.cz/' },
+  { name: 'Kontra Digital', url: 'https://kontradigital.com/' },
+  { name: 'Orbi', url: 'https://orbi.cz/' },
+  { name: 'Yolk Studio', url: 'https://yolkstudio.com/' },
+];
+
+function UsedBySection() {
+  return (
+    <section className={styles.section}>
+      <div className="container">
+        <h2 className={styles.sectionTitle}>Used by</h2>
+        <div className={styles.usedByGrid}>
+          {usedBySites.map((site) => (
+            <a
+              key={site.url}
+              href={site.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.usedByLink}
+            >
+              {site.name}
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function CtaSection() {
   return (
     <section className={styles.ctaSection}>
@@ -245,6 +275,7 @@ export default function Home(): React.ReactElement {
             <HomepageFeatures features={featuresList} />
           </div>
         </section>
+        <UsedBySection />
         <ComparisonBanner />
         <CtaSection />
       </main>

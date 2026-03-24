@@ -188,6 +188,13 @@ See the [full configuration reference](https://jakubkontra.github.io/next-markdo
 | `contentSignal` | `ContentSignal` | — | `Content-Signal` header value |
 | `routePrefix` | `string` | `'/md-mirror'` (App Router) / `'/api/md-mirror'` (Pages Router) | Internal route prefix |
 
+## Used by
+
+- [108 Real Estate](https://www.108realestate.cz/)
+- [Kontra Digital](https://kontradigital.com/)
+- [Orbi](https://orbi.cz/)
+- [Yolk Studio](https://yolkstudio.com/)
+
 ## Contributing
 
 ```bash
