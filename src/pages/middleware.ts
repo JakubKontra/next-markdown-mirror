@@ -47,9 +47,11 @@ export function createMarkdownMiddleware(config: ProxyConfig = {}) {
     // Check if this is a markdown request
     if (!isMarkdownRequest(request)) return NextResponse.next();
 
-    // Rewrite to /api/md-mirror/... path
-    const mdPath = `${prefix}${pathname === '/' ? '/index' : pathname}`;
-    const rewriteUrl = new URL(mdPath, request.url);
+    // Rewrite to /api/md-mirror (single-file route avoids
+    // trailing-slash conflicts with catch-all API routes).
+    // Pass the original path via header since Next.js middleware
+    // rewrites don't forward query params to API route req.query.
+    const rewriteUrl = new URL(prefix, request.url);
 
     // Pass through query params (except v=md)
     for (const [key, value] of request.nextUrl.searchParams) {
@@ -58,6 +60,8 @@ export function createMarkdownMiddleware(config: ProxyConfig = {}) {
       }
     }
 
-    return NextResponse.rewrite(rewriteUrl);
+    const response = NextResponse.rewrite(rewriteUrl);
+    response.headers.set('x-md-original-path', pathname);
+    return response;
   };
 }

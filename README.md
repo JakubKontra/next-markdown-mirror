@@ -89,7 +89,7 @@ export const config = { matcher: ['/((?!_next/static|_next/image|favicon.ico).*)
 **2. API route handler** — fetches your HTML internally and converts to Markdown:
 
 ```ts
-// pages/api/md-mirror/[...path].ts
+// pages/api/md-mirror.ts
 import { createPagesMarkdownHandler } from 'next-markdown-mirror/pages';
 
 export default createPagesMarkdownHandler({

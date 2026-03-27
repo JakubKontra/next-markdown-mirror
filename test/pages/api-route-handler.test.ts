@@ -48,7 +48,7 @@ describe('createPagesMarkdownHandler', () => {
     );
 
     const handler = createPagesMarkdownHandler({ baseUrl: 'http://localhost:3000' });
-    const req = { method: 'GET', query: { path: ['about'] }, headers: {} };
+    const req = { method: 'GET', query: {}, headers: { 'x-md-original-path': '/about' } };
     const res = mockRes();
 
     await handler(req, res);
@@ -75,7 +75,7 @@ describe('createPagesMarkdownHandler', () => {
     vi.mocked(globalThis.fetch).mockResolvedValue(new Response('Not Found', { status: 404 }));
 
     const handler = createPagesMarkdownHandler({ baseUrl: 'http://localhost:3000' });
-    const req = { method: 'GET', query: { path: ['missing'] }, headers: {} };
+    const req = { method: 'GET', query: {}, headers: { 'x-md-original-path': '/missing' } };
     const res = mockRes();
 
     await handler(req, res);
@@ -84,11 +84,11 @@ describe('createPagesMarkdownHandler', () => {
     expect(res._body).toContain('404');
   });
 
-  it('strips path and v query params, preserves others in internal fetch URL', async () => {
+  it('strips v query param, preserves others in internal fetch URL', async () => {
     vi.mocked(globalThis.fetch).mockResolvedValue(new Response(MOCK_HTML, { status: 200 }));
 
     const handler = createPagesMarkdownHandler({ baseUrl: 'http://localhost:3000' });
-    const req = { method: 'GET', query: { path: ['page'], v: 'md', lang: 'en' }, headers: {} };
+    const req = { method: 'GET', query: { v: 'md', lang: 'en' }, headers: { 'x-md-original-path': '/page' } };
     const res = mockRes();
 
     await handler(req, res);
@@ -96,14 +96,13 @@ describe('createPagesMarkdownHandler', () => {
     const calledUrl = vi.mocked(globalThis.fetch).mock.calls[0][0] as string;
     expect(calledUrl).toContain('lang=en');
     expect(calledUrl).not.toContain('v=md');
-    expect(calledUrl).not.toContain('path=');
   });
 
-  it('maps /index path back to /', async () => {
+  it('defaults to / when header is missing', async () => {
     vi.mocked(globalThis.fetch).mockResolvedValue(new Response(MOCK_HTML, { status: 200 }));
 
     const handler = createPagesMarkdownHandler({ baseUrl: 'http://localhost:3000' });
-    const req = { method: 'GET', query: { path: ['index'] }, headers: {} };
+    const req = { method: 'GET', query: {}, headers: {} };
     const res = mockRes();
 
     await handler(req, res);
@@ -116,7 +115,7 @@ describe('createPagesMarkdownHandler', () => {
     vi.mocked(globalThis.fetch).mockResolvedValue(new Response(MOCK_HTML, { status: 200 }));
 
     const handler = createPagesMarkdownHandler({ baseUrl: 'http://localhost:3000' });
-    const req = { method: 'GET', query: { path: ['dashboard'] }, headers: { cookie: 'session=abc123' } };
+    const req = { method: 'GET', query: {}, headers: { 'x-md-original-path': '/dashboard', cookie: 'session=abc123' } };
     const res = mockRes();
 
     await handler(req, res);
@@ -132,7 +131,7 @@ describe('createPagesMarkdownHandler', () => {
       baseUrl: 'http://localhost:3000',
       maxContentSize: 1,
     });
-    const req = { method: 'GET', query: { path: ['page'] }, headers: {} };
+    const req = { method: 'GET', query: {}, headers: { 'x-md-original-path': '/page' } };
     const res = mockRes();
 
     await handler(req, res);

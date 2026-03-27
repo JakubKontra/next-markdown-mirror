@@ -17,10 +17,10 @@ interface PagesApiResponse {
 }
 
 /**
- * Create a Pages Router API route handler for /api/md-mirror/[...path].ts
+ * Create a Pages Router API route handler for /api/md-mirror.ts
  *
  * Usage:
- *   // pages/api/md-mirror/[...path].ts
+ *   // pages/api/md-mirror.ts
  *   import { createPagesMarkdownHandler } from 'next-markdown-mirror/pages';
  *   export default createPagesMarkdownHandler({
  *     baseUrl: process.env.NEXT_PUBLIC_SITE_URL!,
@@ -35,22 +35,18 @@ export function createPagesMarkdownHandler(config: RouteHandlerConfig) {
       return;
     }
 
-    // Reconstruct the original path from catch-all param
-    const pathParam = req.query.path;
-    const pathSegments = Array.isArray(pathParam) ? pathParam : pathParam ? [pathParam] : ['index'];
-    let originalPath = '/' + pathSegments.join('/');
-
-    // Map /index back to /
-    if (originalPath === '/index') {
-      originalPath = '/';
-    }
+    // Read the original path from header set by middleware
+    const pathHeader = req.headers['x-md-original-path'];
+    const pathParam = typeof pathHeader === 'string' ? pathHeader : undefined;
+    let originalPath = pathParam ?? '/';
+    if (originalPath === '' || originalPath === '/index') originalPath = '/';
 
     // Build the URL to fetch internally
     const fetchUrl = new URL(originalPath, config.baseUrl);
 
     // Pass through query params (except path and v)
     for (const [key, value] of Object.entries(req.query)) {
-      if (key === 'path' || key === 'v') continue;
+      if (key === 'v') continue;
       if (typeof value === 'string') {
         fetchUrl.searchParams.set(key, value);
       }

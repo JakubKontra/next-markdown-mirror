@@ -12,21 +12,23 @@ function makeRequest(url: string, accept = 'text/html', method = 'GET'): NextReq
 describe('createMarkdownMiddleware', () => {
   const middleware = createMarkdownMiddleware();
 
-  it('rewrites markdown Accept header requests to /api/md-mirror/...', () => {
+  it('rewrites markdown Accept header requests to /api/md-mirror', () => {
     const req = makeRequest('https://example.com/about', 'text/markdown');
     const res = middleware(req);
 
     expect(res).toBeDefined();
     const rewrite = res!.headers.get('x-middleware-rewrite');
-    expect(rewrite).toBe('https://example.com/api/md-mirror/about');
+    expect(rewrite).toBe('https://example.com/api/md-mirror');
+    expect(res!.headers.get('x-md-original-path')).toBe('/about');
   });
 
-  it('rewrites root / to /api/md-mirror/index', () => {
+  it('rewrites root / and sets x-md-original-path to /', () => {
     const req = makeRequest('https://example.com/', 'text/markdown');
     const res = middleware(req);
 
     const rewrite = res!.headers.get('x-middleware-rewrite');
-    expect(rewrite).toBe('https://example.com/api/md-mirror/index');
+    expect(rewrite).toBe('https://example.com/api/md-mirror');
+    expect(res!.headers.get('x-md-original-path')).toBe('/');
   });
 
   it('rewrites ?v=md requests, stripping v param from rewrite URL', () => {
@@ -35,7 +37,8 @@ describe('createMarkdownMiddleware', () => {
 
     expect(res).toBeDefined();
     const rewrite = res!.headers.get('x-middleware-rewrite');
-    expect(rewrite).toBe('https://example.com/api/md-mirror/about');
+    expect(rewrite).toBe('https://example.com/api/md-mirror');
+    expect(res!.headers.get('x-md-original-path')).toBe('/about');
   });
 
   it('returns NextResponse.next() for normal HTML requests', () => {
@@ -100,7 +103,8 @@ describe('createMarkdownMiddleware', () => {
     const res = customMiddleware(req);
 
     const rewrite = res!.headers.get('x-middleware-rewrite');
-    expect(rewrite).toBe('https://example.com/api/markdown/about');
+    expect(rewrite).toBe('https://example.com/api/markdown');
+    expect(res!.headers.get('x-md-original-path')).toBe('/about');
   });
 
   it('preserves non-v query params in rewrite URL', () => {
@@ -111,5 +115,6 @@ describe('createMarkdownMiddleware', () => {
     expect(rewrite).toContain('q=test');
     expect(rewrite).toContain('lang=en');
     expect(rewrite).not.toContain('v=md');
+    expect(res!.headers.get('x-md-original-path')).toBe('/search');
   });
 });
